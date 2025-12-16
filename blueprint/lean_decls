@@ -1,0 +1,10 @@
+KakeyaFiniteFields.IsKakeyaSet
+KakeyaFiniteFields.card_finsupp_sum_le_eq_sum_range
+KakeyaFiniteFields.finrank_restrictTotalDegree_choose
+KakeyaFiniteFields.step1
+KakeyaFiniteFields.step2
+KakeyaFiniteFields.coeff_prod_top_of_natDegree_le
+KakeyaFiniteFields.coeff_top_eval₂_linear_hc_lt
+KakeyaFiniteFields.step3
+KakeyaFiniteFields.step4
+KakeyaFiniteFields.kakeya_set_bound

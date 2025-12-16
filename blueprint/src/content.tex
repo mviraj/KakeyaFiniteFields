@@ -1,0 +1,78 @@
+\begin{definition}[Kakeya Set]\label{def:kakeya-set} \leanok \lean{KakeyaFiniteFields.IsKakeyaSet}
+Let $\mathbb{F}$ be a finite field with $q$ elements. A set $K \subseteq \mathbb{F}^n$ is a \textbf{Kakeya set} if for every direction $d \in \mathbb{F}^n$, there exists a point $b \in \mathbb{F}^n$ such that the line
+\[
+  L_{b,d} = \{ b + t \cdot d \mid t \in \mathbb{F} \}
+\]
+is contained in $K$.
+\end{definition}
+
+\begin{lemma}[Vanishing Polynomial Existence]\label{lem:kakeya-set-bound-step1} \leanok \lean{KakeyaFiniteFields.step1}
+Let $K \subseteq \mathbb{F}^n$ be a finite set with
+\[
+|K| < \binom{q+n-1}{n}.
+\]
+Then there exists a nonzero polynomial $P \in \mathbb{F}[x_1, \ldots, x_n]$ of degree at most $q-1$ such that $P(x) = 0$ for all $x \in K$.
+\end{lemma}
+\begin{proof}
+The number of monomials of degree at most $q-1$ in $n$ variables is exactly $\binom{q+n-1}{n}$, which exceeds $|K|$ by assumption. The linear map sending coefficient vectors to evaluations on $K$ therefore has a nontrivial kernel by dimension counting.
+\end{proof}
+
+\begin{lemma}[Univariate Restriction Vanishes]\label{lem:kakeya-set-bound-step2} \leanok \lean{KakeyaFiniteFields.step2}
+\uses{def:kakeya-set}
+Let $P \in \mathbb{F}[x_1, \ldots, x_n]$ be a polynomial of degree at most $q-1$ that vanishes on a Kakeya set $K$. For any direction $d \in \mathbb{F}^n \setminus \{0\}$, let $b \in \mathbb{F}^n$ be such that the line $L_{b,d} = \{b + t d \mid t \in \mathbb{F}\}$ is contained in $K$. Then the univariate polynomial $Q(t) = P(b + t d)$ is identically zero.
+\end{lemma}
+\begin{proof}
+Since $L_{b,d} \subseteq K$ and $P$ vanishes on $K$, we have $Q(t) = P(b + t d) = 0$ for all $t \in \mathbb{F}$. The polynomial $Q$ has degree at most $\deg(P) \le q-1$, yet vanishes at all $q$ elements of $\mathbb{F}$. A univariate polynomial of degree less than $q$ with $q$ roots must be the zero polynomial.
+\end{proof}
+
+\begin{lemma}[Top Homogeneous Component Vanishes]\label{lem:kakeya-set-bound-step3} \leanok \lean{KakeyaFiniteFields.step3}
+\uses{def:kakeya-set, lem:kakeya-set-bound-step2}
+Let $P \in \mathbb{F}[x_1, \ldots, x_n]$ be a polynomial of degree at most $q-1$ that vanishes on a Kakeya set $K$. Write
+\[
+P = \sum_{i=0}^{q-1} P_i,
+\]
+where $P_i$ is homogeneous of degree $i$. Then $P_{q-1} \equiv 0$.
+\end{lemma}
+\begin{proof}
+For any $d \in \mathbb{F}^n \setminus \{0\}$, by Lemma~\ref{lem:kakeya-set-bound-step2} there exists $b \in \mathbb{F}^n$ such that $Q(t) = P(b + t d) \equiv 0$. The leading coefficient of $Q$ (the coefficient of $t^{q-1}$) equals $P_{q-1}(d)$. Since $Q \equiv 0$, we have $P_{q-1}(d) = 0$ for all $d \ne 0$. By homogeneity, $P_{q-1}(0) = 0$ as well. Thus $P_{q-1}$ vanishes on all of $\mathbb{F}^n$. Since $\deg(P_{q-1}) = q-1 < q$, and a nonzero polynomial of degree less than $q$ in each variable cannot vanish on all of $\mathbb{F}^n$, we conclude $P_{q-1} \equiv 0$.
+\end{proof}
+
+\begin{lemma}[Inductive Vanishing]\label{lem:kakeya-set-bound-step4} \leanok \lean{KakeyaFiniteFields.step4}
+\uses{def:kakeya-set, lem:kakeya-set-bound-step3}
+Let $P \in \mathbb{F}[x_1, \ldots, x_n]$ be a polynomial of degree at most $q-1$ that vanishes on a Kakeya set $K$. Then $P \equiv 0$.
+\end{lemma}
+\begin{proof}
+Write
+\[
+  P = \sum_{i=0}^{m} P_i , \qquad m = \deg(P) \le q-1,
+\]
+where $P_i$ is homogeneous of degree $i$. We proceed by strong induction on $m$. If $m = 0$, then $P$ is constant; since $K$ is nonempty and $P$ vanishes on $K$, we have $P \equiv 0$. For $m \ge 1$, Lemma~\ref{lem:kakeya-set-bound-step3} implies $P_m \equiv 0$, so
+\[
+  P = \sum_{i=0}^{m-1} P_i
+\]
+has degree at most $m-1$ and still vanishes on $K$. By the inductive hypothesis, $P \equiv 0$.
+\end{proof}
+
+\begin{theorem}[Kakeya Set Lower Bound]\label{thm:kakeya-set-bound} \leanok \lean{KakeyaFiniteFields.kakeya_set_bound}
+\uses{def:kakeya-set, lem:kakeya-set-bound-step1, lem:kakeya-set-bound-step4}
+Let $K \subseteq \mathbb{F}^n$ be a Kakeya set. Then
+\[
+  |K| \ge C_n \cdot q^n,
+\]
+where $C_n > 0$ depends only on $n$.
+\end{theorem}
+\begin{proof}
+Suppose for contradiction that
+\[
+  |K| < \binom{q+n-1}{n}.
+\]
+By Lemma~\ref{lem:kakeya-set-bound-step1}, there exists a nonzero polynomial $P \in \mathbb{F}[x_1, \ldots, x_n]$ of degree at most $q-1$ that vanishes on $K$. By Lemma~\ref{lem:kakeya-set-bound-step4}, any such polynomial must be identically zero---a contradiction. Therefore
+\[
+  |K| \ge \binom{q+n-1}{n}.
+\]
+Since
+\[
+  \binom{q+n-1}{n} = \frac{(q+n-1)!}{(q-1)!\, n!} \sim \frac{q^n}{n!} \quad \text{as } q \to \infty,
+\]
+the theorem holds with $C_n = 1/n!$.
+\end{proof}
